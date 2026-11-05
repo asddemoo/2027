@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Настройка hostname
-hostnamectl set-hostname isp.au-team.irpo
+hostnamectl set-hostname isp.demo.prof
 
 
 # Настрока часового пояса
