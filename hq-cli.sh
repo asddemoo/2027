@@ -26,7 +26,7 @@ mount -a
 ls /mnt/nfs
 
 # Создание пользователя sshuser с UID 2027 (МЕНЯЙТЕ ИМЯ И Т.Д В ЗАВИСИМОСТИ ОТ ЗАДАНИЯ)
-useradd -u 2027 -m master
+useradd -u 2222 -m master
 
 # Установка пароля P@ssw0rd без подтверждения
 echo "sshuser:P@ssw0rd" | chpasswd
