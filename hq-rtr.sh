@@ -138,7 +138,7 @@ echo "master:P@ssw0rd" | chpasswd
 
 # 3. Добавление в группу wheel
 apt-get install -y shadow-groups
-gpasswd -a net_admin wheel
+gpasswd -a master wheel
 
 # 4. Настройка sudo без пароля
 echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
