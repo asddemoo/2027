@@ -195,5 +195,5 @@ chmod +x import_user.sh
 ./import_user.sh /mnt/Users.csv
 
 cd /etc/ansible
-wget raw.githubusercontent.com/V-I-19/fw/refs/heads/main/get.yml
+wget raw.githubusercontent.com/asddemoo/2027/main/get.yml
 ansible-playbook /etc/ansible/get.yml
