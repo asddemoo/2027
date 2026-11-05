@@ -32,7 +32,7 @@ useradd -u 2222 -m master
 echo "master:P@ssw0rd" | chpasswd
 
 # Добавление в группу wheel
-gpasswd -a sshuser wheel
+gpasswd -a master wheel
 
 # Настройка sudo без пароля
 echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
