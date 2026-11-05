@@ -10,10 +10,10 @@ cat << 'EOF' > /etc/nginx/sites-available.d/default.conf
 server {
     #listen 443 ssl;
     listen 80;
-    server_name web.au-team.irpo;
+    server_name web.demo.prof;
 
-    #ssl_certificate /etc/nginx/ssl/web.au-team.irpo.cer;
-    #ssl_certificate_key /etc/nginx/ssl/web.au-team.irpo.key;
+    #ssl_certificate /etc/nginx/ssl/web.demo.prof.cer;
+    #ssl_certificate_key /etc/nginx/ssl/web.demo.prof.key;
     #ssl_ciphers GOST2012-GOST8912-GOST8912:HIGH:MEDIUM;
     #ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     #ssl_prefer_server_ciphers on;
@@ -32,7 +32,7 @@ server {
 server {
     listen 80;
     #listen 443 ssl;
-    server_name docker.au-team.irpo;
+    server_name docker.demo.prof;
 
     #ssl_certificate /etc/nginx/ssl/docker.au-team.irpo.cer;
     #ssl_certificate_key /etc/nginx/ssl/docker.au-team.irpo.key;
