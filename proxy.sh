@@ -5,7 +5,7 @@ htpasswd -bc /etc/nginx/.htpasswd WEB 'P@ssw0rd'
 printf '%s\n' \
 'server {' \
 $'\tlisten 80;' \
-$'\tserver_name web.au-team.irpo;' \
+$'\tserver_name web.demo.prof;' \
 '' \
 $'\tlocation / {' \
 $'\t\tproxy_pass http://172.16.1.2:8080;' \
@@ -20,7 +20,7 @@ $'\t}' \
 '' \
 'server {' \
 $'\tlisten 80;' \
-$'\tserver_name docker.au-team.irpo;' \
+$'\tserver_name docker.demo.prof;' \
 '' \
 $'\tlocation / {' \
 $'\t\tproxy_pass http://172.16.2.2:8080;' \
