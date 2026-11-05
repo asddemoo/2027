@@ -1,5 +1,5 @@
 #!/bin/bash
-hostnamectl set-hostname br-srv.au-team.irpo
+hostnamectl set-hostname br-srv.demo.prof
 
 apt-get update && apt-get install -y chrony tzdata
 
@@ -14,21 +14,21 @@ systemctl enable --now chronyd
 echo "Настройка SSH"
 
 # Создание пользователя sshuser с UID 2027 (МЕНЯЙТЕ ИМЯ И Т.Д В ЗАВИСИМОСТИ ОТ ЗАДАНИЯ)
-useradd -u 2027 -m sshuser
+useradd -u 2222 -m master
 
 # Установка пароля P@ssw0rd без подтверждения
-echo "sshuser:P@ssw0rd" | chpasswd
+echo "master:P@ssw0rd" | chpasswd
 
 # Добавление в группу wheel
-gpasswd -a sshuser wheel
+gpasswd -a master wheel
 
 # Настройка sudo без пароля
-echo "sshuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Настройка SSH
-sed -i 's/#Port 22/Port 2027/' /etc/openssh/sshd_config
+sed -i 's/#Port 22/Port 2222/' /etc/openssh/sshd_config
 sed -i 's/#PermitRootLogin without-password/PermitRootLogin no/' /etc/openssh/sshd_config
-echo "AllowUsers sshuser" >> /etc/openssh/sshd_config
+echo "AllowUsers master" >> /etc/openssh/sshd_config
 echo "MaxAuthTries 2" >> /etc/openssh/sshd_config
 echo "Banner /etc/openssh/banner" >> /etc/openssh/sshd_config
 
@@ -39,8 +39,8 @@ echo "Authorized access only" > /etc/openssh/banner
 systemctl restart sshd
 
 echo "Настройка завершена:"
-echo "- Пользователь: sshuser (пароль: P@ssw0rd)"
-echo "- SSH порт: 2027"
+echo "- Пользователь: master (пароль: P@ssw0rd)"
+echo "- SSH порт: 2222"
 echo "- Root-логин запрещен"
 echo "- Баннер создан"
 
@@ -49,11 +49,11 @@ echo "- Скачиваем файл инвентаря"
 apt-get update && apt-get install -y ansible sshpass 
 cd /etc/ansible
 wget raw.githubusercontent.com/CryEshka/2027/main/inventory.yml
-sshpass -p 'P@ssw0rd' ssh -p 2027 -o StrictHostKeyChecking=no sshuser@192.168.0.2 exit
-sshpass -p 'P@ssw0rd' ssh -p 2027 -o StrictHostKeyChecking=no sshuser@192.168.100.1 exit
-sshpass -p 'P@ssw0rd' ssh -p 2027 -o StrictHostKeyChecking=no sshuser@192.168.200.3 exit
-sshpass -p 'P@ssw0rd' ssh -p 2027 -o StrictHostKeyChecking=no net_admin@192.168.100.1 exit
-sshpass -p 'P@ssw0rd' ssh -p 2027 -o StrictHostKeyChecking=no net_admin@192.168.1.1 exit
+sshpass -p 'P@ssw0rd' ssh -p 2222 -o StrictHostKeyChecking=no sshuser@192.168.0.2 exit
+sshpass -p 'P@ssw0rd' ssh -p 2222 -o StrictHostKeyChecking=no sshuser@192.168.100.1 exit
+sshpass -p 'P@ssw0rd' ssh -p 2222 -o StrictHostKeyChecking=no sshuser@192.168.200.3 exit
+sshpass -p 'P@ssw0rd' ssh -p 2222 -o StrictHostKeyChecking=no net_admin@192.168.100.1 exit
+sshpass -p 'P@ssw0rd' ssh -p 2222 -o StrictHostKeyChecking=no net_admin@192.168.1.1 exit
 ansible -m ping all
 
 apt-get update
@@ -75,8 +75,8 @@ rm -rf /var/cache/samba
 mkdir -p /var/lib/samba/sysvol
 
 samba-tool domain provision \
-  --realm="AU-TEAM.IRPO" \
-  --domain="AU-TEAM" \
+  --realm="DEMO.PROF" \
+  --domain="DEMO.PROF" \
   --server-role="dc" \
   --dns-backend="SAMBA_INTERNAL" \
   --option="dns forwarder=192.168.100.2" \
@@ -89,13 +89,13 @@ systemctl enable --now samba
 systemctl restart samba
 
 cat > "/etc/net/ifaces/enp7s1/resolv.conf" <<EOF
-search au-team.irpo
+search demo.prof
 nameserver 127.0.0.1
 EOF
 
 systemctl restart network
 
-echo "P@ssw0rd" | kinit Administrator@AU-TEAM.IRPO
+echo "P@ssw0rd" | kinit Administrator@DEMO.PROF
 
 samba-tool group add hq
 
@@ -167,7 +167,7 @@ printf '%s\n' \
 '# Create OU' \
 'awk -F '"'"';'"'"' '"'"'NR>1 {print $5}'"'"' "$csv_file" | sort | uniq | while read ou;' \
 'do' \
-$'\tsamba-tool ou add OU="$ou",DC=au-team,DC=irpo;' \
+$'\tsamba-tool ou add OU="$ou",DC=demo,DC=prof;' \
 'done' \
 '' \
 '# Create Users' \
