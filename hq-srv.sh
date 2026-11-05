@@ -26,19 +26,19 @@ ping HQ-SRV.au-team.irpo
 echo "Настройка SSH"
 
 # Создание пользователя sshuser с UID 2027 (МЕНЯЙТЕ ИМЯ И Т.Д В ЗАВИСИМОСТИ ОТ ЗАДАНИЯ)
-useradd -u 2027 -m sshuser
+useradd -u 2222 -m master
 
 # Установка пароля P@ssw0rd без подтверждения
-echo "sshuser:P@ssw0rd" | chpasswd
+echo "master:P@ssw0rd" | chpasswd
 
 # Добавление в группу wheel
 gpasswd -a sshuser wheel
 
 # Настройка sudo без пароля
-echo "sshuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Настройка SSH
-sed -i 's/#Port 22/Port 2027/' /etc/openssh/sshd_config
+sed -i 's/#Port 22/Port 2222/' /etc/openssh/sshd_config
 sed -i 's/#PermitRootLogin without-password/PermitRootLogin no/' /etc/openssh/sshd_config
 echo "AllowUsers sshuser" >> /etc/openssh/sshd_config
 echo "MaxAuthTries 2" >> /etc/openssh/sshd_config
@@ -51,8 +51,8 @@ echo "Authorized access only" > /etc/openssh/banner
 systemctl restart sshd
 
 echo "Настройка завершена:"
-echo "- Пользователь: sshuser (пароль: P@ssw0rd)"
-echo "- SSH порт: 2027"
+echo "- Пользователь: master (пароль: P@ssw0rd)"
+echo "- SSH порт: 2222"
 echo "- Root-логин запрещен"
 echo "- Баннер создан"
 
@@ -100,7 +100,7 @@ echo "- Настройка RESOLV"
 # Файл /etc/resolv.conf
 cat > /etc/resolv.conf <<EOF
     nameserver 127.0.0.1
-    search au-team.irpo
+    search demo.prof
 
 EOF
 chattr +i /etc/resolv.conf
