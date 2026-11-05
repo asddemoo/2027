@@ -93,7 +93,7 @@ apt-get install -y shadow-groups
 gpasswd -a master wheel
 
 # 4. Настройка sudo без пароля
-echo "net_admin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 5. Настройка SSH (порт 2027 и запрет root-логина)
 sed -i 's/#Port 22/Port 2222/' /etc/openssh/sshd_config
