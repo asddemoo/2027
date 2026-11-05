@@ -1,6 +1,6 @@
 #!/bin/bash
 # Настройка hostname
-hostnamectl set-hostname hq-rtr.au-team.irpo
+hostnamectl set-hostname hq-rtr.demo.prof
 apt-get update && apt-get install -y chrony tzdata
 apt-get install sshpass
 # Настрока часового пояса
@@ -77,7 +77,7 @@ HOST=enp7s1
 EOF
 
 # Файл ipv4address
-echo "10.10.10.1/30" > /etc/net/ifaces/tun0/ipv4address
+echo "10.10.10.0/24" > /etc/net/ifaces/tun0/ipv4address
 
 # Загружаем модуль GRE и перезапускаем сеть
 modprobe gre
@@ -107,7 +107,7 @@ router ospf
 network 192.168.100.0/27 area 0
 network 192.168.200.0/28 area 0
 network 192.168.99.0/29 area 0
-network 10.10.10.0/30 area 0
+network 10.10.10.0/24 area 0
 exit
 int tun0
 
@@ -126,28 +126,28 @@ echo "Настройка OSPF завершена!"
 apt-get install iptables -y
 iptables -t nat -A POSTROUTING -o enp7s1 -j MASQUERADE 
 iptables -t nat -A PREROUTING -i enp7s1 -p tcp --dport 8080 -j DNAT --to-destination 192.168.100.2:80
-iptables -t nat -A PREROUTING -i enp7s1 -p tcp --dport 2027 -j DNAT --to-destination 192.168.100.2:2027
+iptables -t nat -A PREROUTING -i enp7s1 -p tcp --dport 2222 -j DNAT --to-destination 192.168.100.2:2222
 iptables-save >> /etc/sysconfig/iptables
 systemctl enable --now iptables
 
 # 1. Создание пользователя net_admin (ЛИБО ДРУГОГО ПОЛЬЗОВАТЕЛЯ, ПРИ СМЕНЕ ПОМЕНЯТЬ В ЭТОМ ФАЙЛЕ ИМЯ И Т.Д)
-useradd -m net_admin
+useradd -m master
 
 # 2. Установка пароля P@$$word (без подтверждения)
-echo "net_admin:P@ssw0rd" | chpasswd
+echo "master:P@ssw0rd" | chpasswd
 
 # 3. Добавление в группу wheel
 apt-get install -y shadow-groups
 gpasswd -a net_admin wheel
 
 # 4. Настройка sudo без пароля
-echo "net_admin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "master ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 5. Настройка SSH (порт 2027 и запрет root-логина)
-sed -i 's/#Port 22/Port 2027/' /etc/openssh/sshd_config
+sed -i 's/#Port 22/Port 2222/' /etc/openssh/sshd_config
 sed -i 's/#PermitRootLogin without-password/PermitRootLogin no/' /etc/openssh/sshd_config
 
 # 6. Перезапуск SSH
 systemctl restart sshd
 systemctl enable --now sshd
-echo "Готово! Пользователь net_admin создан, SSH настроен на порт 2027."
+echo "Готово! Пользователь master создан, SSH настроен на порт 2222."
