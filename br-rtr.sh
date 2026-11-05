@@ -35,7 +35,7 @@ HOST=enp7s1
 EOF
 
 # Файл ipv4address
-echo "10.10.10.2/30" > /etc/net/ifaces/tun0/ipv4address
+echo "10.10.10.0/24" > /etc/net/ifaces/tun0/ipv4address
 
 # Загружаем модуль GRE и перезапускаем сеть
 modprobe gre
