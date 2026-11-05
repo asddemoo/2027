@@ -1,5 +1,5 @@
 #!/bin/bash
-hostnamectl set-hostname hq-srv.au-team.irpo
+hostnamectl set-hostname hq-srv.demo.prof
 
 apt-get update && apt-get install -y chrony tzdata
 
@@ -15,7 +15,7 @@ systemctl enable --now chronyd
 # Установка wget
 apt-get update && apt-get install wget
 #Настройка ДНС
-wget raw.githubusercontent.com/CryEshka/2027/main/dnsmasq.conf
+wget raw.githubusercontent.com/asddemoo/2027/main/dnsmasq.conf
 apt-get install -y dnsmasq
 systemctl enable --now dnsmasq
 rm -rf /etc/dnsmasq.conf
