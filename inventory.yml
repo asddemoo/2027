@@ -2,30 +2,30 @@ Networking:
   hosts:
     hq-rtr:
       ansible_host: 192.168.100.1
-      ansible_user: net_admin
+      ansible_user: master
       ansible_password: P@ssw0rd
-      ansible_port: 2027
+      ansible_port: 2222
     br-rtr:
       ansible_host: 192.168.1.1
-      ansible_user: net_admin
+      ansible_user: master
       ansible_password: P@ssw0rd
-      ansible_port: 2027
+      ansible_port: 2222
 Servers:
   hosts:
     hq-srv:
       ansible_host: 192.168.100.2
-      ansible_user: sshuser
+      ansible_user: master
       ansible_password: P@ssw0rd
       ansible_port: 2027
     br-srv:
       ansible_host: 192.168.0.2
-      ansible_user: sshuser
+      ansible_user: master
       ansible_password: P@ssw0rd
-      ansible_port: 2027
+      ansible_port: 2222
 Clients:
   hosts:
     hq-cli:
       ansible_host: 192.168.200.3
-      ansible_user: sshuser
+      ansible_user: master
       ansible_password: P@ssw0rd
-      ansible_port: 2027
+      ansible_port: 2222
